@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const loginASUser = async (userName: String, password: String) => {
     try {
-        const response = await axios.post('http://localhost:8080/auth/login', {
+        const response = await axios.post('https://shaadi-website-1.onrender.com/auth/login', {
             userName: userName,
             password: password
         }, {
