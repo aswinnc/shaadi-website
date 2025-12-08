@@ -1,4 +1,4 @@
-export const baseurl = "http://localhost:8080";
+export const baseurl = "https://shaadi-website-1.onrender.com";
 
 export const postRequest = async (url, body) => {
   const response = await fetch(url, {

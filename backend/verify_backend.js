@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'https://shaadi-website-1.onrender.com';
 
 const runTests = async () => {
     try {
