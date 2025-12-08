@@ -3,7 +3,7 @@ import { FaStar } from "react-icons/fa6";
 import { IoMdMale } from "react-icons/io";
 import { IoMdFemale } from "react-icons/io";
 
-import { IoMdFemale } from "react-icons/io";
+
 
 // Using placeholder images for demo if real ones aren't enough, mirroring the style
 import { getRequest, baseurl, calculateAge } from "../utils/services";
