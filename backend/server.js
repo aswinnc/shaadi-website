@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const Contact = require('./models/Contact'); // Force model registration
 
 const path = require('path');
 
