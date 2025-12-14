@@ -72,12 +72,12 @@ exports.subscribeNewsletter = async (req, res) => {
 
     try {
         const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com",
-            port: 2525,
+            host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
+            port: process.env.SMTP_PORT || 2525,
             secure: false,
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: process.env.SMTP_USER || process.env.EMAIL_USER,
+                pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
             },
             tls: {
                 rejectUnauthorized: false
