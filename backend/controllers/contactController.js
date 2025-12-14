@@ -89,7 +89,7 @@ exports.subscribeNewsletter = async (req, res) => {
         });
 
         const mailOptions = {
-            from: process.env.EMAIL_USER, // Verified sender
+            from: process.env.SENDER_EMAIL || process.env.EMAIL_USER,
             replyTo: email,
             to: "aswinnc3@gmail.com",
             subject: "New Newsletter Subscriber",
