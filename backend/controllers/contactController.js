@@ -12,7 +12,23 @@ exports.sendContactEmail = async (req, res) => {
         return res.status(400).json({ error: "All fields are required" });
     }
 
+    // Debug: Check which credentials are loaded
+    const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
+    const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
+    const senderEmail = process.env.SENDER_EMAIL || process.env.EMAIL_USER;
+
+    console.log("Debug Auth Check:");
+    console.log("SMTP_HOST:", process.env.SMTP_HOST || "default");
+    console.log("SMTP_PORT:", process.env.SMTP_PORT || "default (2525)");
+    console.log("User Loaded:", smtpUser ? "YES" : "NO");
+    console.log("Pass Loaded:", smtpPass ? "YES" : "NO");
+    console.log("Sender Loaded:", senderEmail ? "YES" : "NO");
+
     try {
+        if (!smtpUser || !smtpPass) {
+            throw new Error("Missing SMTP Credentials. Please check Render Environment Variables.");
+        }
+
         // Create Transporter
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
