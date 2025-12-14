@@ -33,8 +33,9 @@ exports.sendContactEmail = async (req, res) => {
 
         // Mail Options
         const mailOptions = {
-            from: email, // Sender address (user's email from form)
-            to: "aswinnc3@gmail.com", // Recipient address (FIXED)
+            from: process.env.EMAIL_USER, // Must be the verified sender
+            replyTo: email, // Reply to the visitor
+            to: "aswinnc3@gmail.com",
             subject: `New Contact Form Submission: ${subject}`,
             html: `
         <h3>New Message from Shaadi Website</h3>
@@ -88,7 +89,8 @@ exports.subscribeNewsletter = async (req, res) => {
         });
 
         const mailOptions = {
-            from: email,
+            from: process.env.EMAIL_USER, // Verified sender
+            replyTo: email,
             to: "aswinnc3@gmail.com",
             subject: "New Newsletter Subscriber",
             html: `
