@@ -15,17 +15,17 @@ exports.sendContactEmail = async (req, res) => {
     try {
         // Create Transporter
         const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com",
-            port: 2525,
+            host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
+            port: process.env.SMTP_PORT || 2525,
             secure: false,
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: process.env.SMTP_USER || process.env.EMAIL_USER,
+                pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
             },
             tls: {
-                rejectUnauthorized: false // Fix for Render proxy cert issues
+                rejectUnauthorized: false
             },
-            keepAlive: true, // Prevent connection dropping
+            keepAlive: true,
             connectionTimeout: 10000,
             debug: true,
             logger: true
@@ -33,7 +33,7 @@ exports.sendContactEmail = async (req, res) => {
 
         // Mail Options
         const mailOptions = {
-            from: process.env.EMAIL_USER, // Must be the verified sender
+            from: process.env.SENDER_EMAIL || process.env.EMAIL_USER, // Verified sender
             replyTo: email, // Reply to the visitor
             to: "aswinnc3@gmail.com",
             subject: `New Contact Form Submission: ${subject}`,
