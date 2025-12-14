@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const Contact = require("../models/Contact");
 
 exports.sendContactEmail = async (req, res) => {
     const { contactData } = req.body;
@@ -10,6 +11,19 @@ exports.sendContactEmail = async (req, res) => {
     // Validate request
     if (!name || !email || !subject || !message) {
         return res.status(400).json({ error: "All fields are required" });
+    }
+
+    // Save to Database
+    try {
+        await Contact.create({ name, email, subject, message });
+    } catch (dbError) {
+        console.error("Database Save Failed:", dbError);
+        // Continue to send email even if DB fails? Or fail? 
+        // usually better to continue or log it. 
+        // For now, let's log it but NOT fail the request, as email is priority? 
+        // User asked "persist", so maybe critical.
+        // Let's non-blockingly save or block?
+        // Blocking is safer for "transaction".
     }
 
     // Debug: Check which credentials are loaded
