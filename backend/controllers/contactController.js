@@ -17,11 +17,14 @@ exports.sendContactEmail = async (req, res) => {
         const transporter = nodemailer.createTransport({
             host: "smtp-relay.brevo.com",
             port: 587,
-            secure: false,
+            secure: false, // true for 465, false for other ports
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
             },
+            connectionTimeout: 10000,
+            debug: true,
+            logger: true
         });
 
         // Mail Options
@@ -71,6 +74,9 @@ exports.subscribeNewsletter = async (req, res) => {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
             },
+            connectionTimeout: 10000,
+            debug: true,
+            logger: true
         });
 
         const mailOptions = {
