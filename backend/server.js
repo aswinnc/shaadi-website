@@ -19,7 +19,8 @@ app.use(cors({
     origin: [
         "https://shaadi-website-9s5j-66dj6o3pp-aswin-ncs-projects.vercel.app",
         "http://localhost:5173",
-        "https://shaadi-website-gamma.vercel.app"
+        "https://shaadi-website-gamma.vercel.app",
+        "https://shaadi-website-9s5j.vercel.app"
     ],
     credentials: true
 }));
