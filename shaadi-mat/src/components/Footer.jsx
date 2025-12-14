@@ -1,19 +1,35 @@
-import React from "react";
-
+import React, { useState } from "react";
 import Logo from "../assets/Logo.png";
 import bgImage from "../assets/footer.svg";
 import { NavLink } from "react-router-dom";
-
 import { GrSend } from "react-icons/gr";
 import { FaFacebookF, FaYoutube } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
+import axios from "axios";
+import { baseurl } from "../utils/services";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = async () => {
+    if (!email) return alert("Please enter your email");
+    try {
+      await axios.post(`${baseurl}/contact/subscribe`, { email });
+      alert("Subscribed successfully!");
+      setEmail("");
+    } catch (err) {
+      console.log(err);
+      alert("Failed to subscribe");
+    }
+  };
+
   let navLinks = [
     { id: 1, name: "Home", path: "/" },
     { id: 2, name: "Members", path: "/members" },
     { id: 3, name: "Contact", path: "/contact" },
   ];
+  // ... rest of the file
+
 
   let socialLinks = [
     {
@@ -57,7 +73,7 @@ const Footer = () => {
       <div className="flex flex-col w-full h-auto items-center p-5 lg:px-[20%] bg-[#7c3c4e]">
         <div className="flex lg:flex-row flex-col w-full items-center">
           <div>
-            <img src={Logo} className="lg:w-64 w-[100px]"/>
+            <img src={Logo} className="lg:w-64 w-[100px]" />
             <p className="lg:w-72 text-white text-[15px]">
               ShaadiTamil helps you find your perfect soulmate. Join today and
               start searching for your partner right away.
@@ -98,10 +114,12 @@ const Footer = () => {
               <div className="flex w-full items-center my-2">
                 <input
                   type="email"
+                  value={email || ""}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="youremail@gmail.com"
                   className="px-2 py-3 w-96 text-white rounded-md shadow bg-transparent border-[1px] outline-none placeholder:text-[#dc6f72] border-white"
                 />
-                <button className="bg-white hover:bg-[#ee3a6a] hover:text-white my-2 shadow-md shadow-slate-200 hover:shadow-[#fd94b0cb] w-auto p-3 py-3 rounded-md -ml-5 transition-all duration-500">
+                <button className="bg-white hover:bg-[#ee3a6a] hover:text-white my-2 shadow-md shadow-slate-200 hover:shadow-[#fd94b0cb] w-auto p-3 py-3 rounded-md -ml-5 transition-all duration-500" onClick={handleSubscribe}>
                   <GrSend
                     fontSize={10}
                     className="w-7 h-7 hover:text-white text-[#ee3a6a] transition-all duration-500"

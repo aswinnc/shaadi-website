@@ -6,6 +6,9 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
+console.log("Current directory:", process.cwd());
+console.log("Email User loaded:", process.env.EMAIL_USER ? "YES" : "NO");
+console.log("Email Pass loaded:", process.env.EMAIL_PASS ? "YES" : "NO");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,6 +20,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // Routes
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
+app.use('/contact', require('./routes/contactRoutes'));
 
 app.get('/', (req, res) => {
     res.send('Shaadi API is running');

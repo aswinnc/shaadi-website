@@ -39,14 +39,24 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!emailError && !nameError && !subjectError && !messageError) {
+
+    // Check for empty fields
+    const { name, email, subject, message } = contactData;
+    let isValid = true;
+
+    if (!name) { setNameError("Name is missing"); isValid = false; }
+    if (!email) { setEmailError("Email is missing"); isValid = false; }
+    if (!subject) { setSubjectError("Subject is missing"); isValid = false; }
+    if (!message) { setMessageError("Message is required"); isValid = false; }
+
+    if (isValid && !emailError && !nameError && !subjectError && !messageError) {
       console.log("no errors found");
       try {
         const response = await axios.post(`${baseurl}/contact`, {
           contactData,
         });
 
-        if (response.error) {
+        if (response.data.error) {
           console.log(response.data);
         } else {
           setContactData({
@@ -55,9 +65,12 @@ const ContactForm = () => {
             subject: "",
             message: "",
           });
+          alert("Message sent successfully!");
         }
       } catch (err) {
-        console.log(err);
+        console.log("Error sending message:", err);
+        const errorMessage = err.response?.data?.error || err.message || "Failed to send message";
+        alert(`Error: ${errorMessage}`);
       }
     } else {
       console.log("error found");
@@ -79,6 +92,8 @@ const ContactForm = () => {
         </label>
         <input
           type="text"
+          name="name"
+          value={contactData.name || ""}
           placeholder="your name goes here"
           className="bg-white/40 px-3 py-2 border-[1px] border-pink-200 rounded-md mt-2 outline-none focus:bg-pink-100"
           onChange={handleInputChange}
@@ -90,6 +105,8 @@ const ContactForm = () => {
         </label>
         <input
           type="text"
+          name="email"
+          value={contactData.email || ""}
           placeholder="your email goes here"
           className="bg-white/40 px-3 py-2 border-[1px] border-pink-200 rounded-md mt-2 outline-none focus:bg-pink-100"
           onChange={handleInputChange}
@@ -101,6 +118,8 @@ const ContactForm = () => {
         </label>
         <input
           type="text"
+          name="subject"
+          value={contactData.subject || ""}
           placeholder="your subject goes here"
           className="bg-white/40 px-3 py-2 border-[1px] border-pink-200 rounded-md mt-2 outline-none focus:bg-pink-100"
           onChange={handleInputChange}
@@ -112,6 +131,8 @@ const ContactForm = () => {
         </label>
         <textarea
           type="text"
+          name="message"
+          value={contactData.message || ""}
           placeholder="Message..."
           rows={5}
           className="bg-white/40 px-3 py-2 border-[1px] border-pink-200 rounded-md mt-2 outline-none focus:bg-pink-100"
