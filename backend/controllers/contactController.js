@@ -15,9 +15,9 @@ exports.sendContactEmail = async (req, res) => {
     try {
         // Create Transporter
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true, // true for 465, false for other ports
+            host: "smtp-relay.brevo.com",
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
@@ -44,8 +44,14 @@ exports.sendContactEmail = async (req, res) => {
 
         res.status(200).json({ message: "Email sent successfully" });
     } catch (error) {
-        console.error("Error sending email:", error);
-        res.status(500).json({ error: "Failed to send email" });
+        console.error("Error sending email (Detailed):", {
+            message: error.message,
+            code: error.code,
+            command: error.command,
+            stack: error.stack,
+            fullError: JSON.stringify(error)
+        });
+        res.status(500).json({ error: "Failed to send email", details: error.message });
     }
 };
 
@@ -58,9 +64,9 @@ exports.subscribeNewsletter = async (req, res) => {
 
     try {
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
+            host: "smtp-relay.brevo.com",
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
