@@ -5,7 +5,9 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-dotenv.config();
+const path = require('path');
+
+dotenv.config({ path: path.join(__dirname, '.env') });
 console.log("Current directory:", process.cwd());
 console.log("Email User loaded:", process.env.EMAIL_USER ? "YES" : "NO");
 console.log("Email Pass loaded:", process.env.EMAIL_PASS ? "YES" : "NO");
