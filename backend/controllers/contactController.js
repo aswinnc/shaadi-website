@@ -16,12 +16,16 @@ exports.sendContactEmail = async (req, res) => {
         // Create Transporter
         const transporter = nodemailer.createTransport({
             host: "smtp-relay.brevo.com",
-            port: 587,
-            secure: false, // true for 465, false for other ports
+            port: 2525,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
             },
+            tls: {
+                rejectUnauthorized: false // Fix for Render proxy cert issues
+            },
+            keepAlive: true, // Prevent connection dropping
             connectionTimeout: 10000,
             debug: true,
             logger: true
@@ -68,12 +72,16 @@ exports.subscribeNewsletter = async (req, res) => {
     try {
         const transporter = nodemailer.createTransport({
             host: "smtp-relay.brevo.com",
-            port: 587,
+            port: 2525,
             secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
             },
+            tls: {
+                rejectUnauthorized: false
+            },
+            keepAlive: true,
             connectionTimeout: 10000,
             debug: true,
             logger: true
